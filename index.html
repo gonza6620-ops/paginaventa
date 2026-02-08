@@ -87,7 +87,7 @@
     height: 100%;
 }
         .nav-links {
-            display: flex;
+            display: flex !important; /* IMPORTANTE para mostrar en escritorio */
             list-style: none;
             align-items: center;
             justify-content: center;
@@ -131,7 +131,7 @@
         }
 
         .menu-toggle {
-            display: none;
+            display: none; /* Oculto por defecto en escritorio */
             font-size: 1.8rem;
             color: var(--azul-electrico);
             cursor: pointer;
@@ -494,7 +494,7 @@
             }
         }
 
-        /* Responsive */
+        /* Responsive - CORREGIDO */
         @media (max-width: 1400px) {
             .logo-img {
                 height: 200px !important;
@@ -624,13 +624,14 @@
         }
 
         @media (max-width: 768px) {
+            /* Solo en móviles: menú hamburguesa */
             .menu-toggle {
-                display: block;
+                display: block !important;
                 order: 2;
             }
             
             .nav-container {
-                display: none;
+                display: none !important; /* Oculto inicialmente en móvil */
             }
             
             .nav-links {
@@ -649,10 +650,11 @@
                 box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
                 z-index: 9999;
                 gap: 25px;
+                display: none !important; /* Oculto inicialmente en móvil */
             }
             
             .nav-links.active {
-                display: flex;
+                display: flex !important; /* Mostrar cuando está activo */
                 transform: translateY(0);
                 opacity: 1;
             }
@@ -703,6 +705,30 @@
             
             .whatsapp-float i {
                 font-size: 1.8rem !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            /* En escritorio: asegurar que el menú se muestre */
+            .nav-container {
+                display: flex !important;
+            }
+            
+            .nav-links {
+                display: flex !important;
+                position: static !important;
+                flex-direction: row !important;
+                opacity: 1 !important;
+                transform: none !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+                border-bottom: none !important;
+                padding: 0 !important;
+                width: auto !important;
+            }
+            
+            .menu-toggle {
+                display: none !important;
             }
         }
 
@@ -866,7 +892,7 @@
                     </ul>
                 </div>
                 
-                <!-- Menú móvil -->
+                <!-- Menú móvil - SOLO VISIBLE EN MÓVIL -->
                 <div class="menu-toggle" id="mobile-menu">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -1107,19 +1133,22 @@
     </footer>
 
     <script>
-        // Menú móvil
+        // Menú móvil - SOLO para dispositivos móviles
         document.getElementById('mobile-menu').addEventListener('click', function() {
             document.getElementById('nav-links').classList.toggle('active');
             this.querySelector('i').classList.toggle('fa-bars');
             this.querySelector('i').classList.toggle('fa-times');
         });
         
-        // Cerrar menú al hacer clic en un enlace
+        // Cerrar menú al hacer clic en un enlace (solo en móvil)
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                document.getElementById('nav-links').classList.remove('active');
-                document.querySelector('#mobile-menu i').classList.remove('fa-times');
-                document.querySelector('#mobile-menu i').classList.add('fa-bars');
+                // Solo cerrar menú en dispositivos móviles
+                if (window.innerWidth <= 768) {
+                    document.getElementById('nav-links').classList.remove('active');
+                    document.querySelector('#mobile-menu i').classList.remove('fa-times');
+                    document.querySelector('#mobile-menu i').classList.add('fa-bars');
+                }
             });
         });
         
